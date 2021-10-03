@@ -12,10 +12,10 @@ exports.getAllLessonOption = async (req, res, next) => {
 }
 
 // get data by id
-exports.getLessonOptionById = async (req, res, next) => {
+exports.getLessonOptionById = async (req, res, next) => { // used in taecherProfile
   try {
     const { id } = req.params;
-    const data = await lessonOption.findOne({ where: { id, userAccountId: req.user.id } })
+    const data = await lessonOption.findAll({ where: { lessonsId: id }, include: { all: true } })
     res.json({ data })
   }
   catch (err) {

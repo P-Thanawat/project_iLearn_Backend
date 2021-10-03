@@ -100,7 +100,7 @@ exports.login = async (req, res, next) => { //* LOGIN
 //     next(err)
 //   }
 // }
-//*upload file to cloud (cloudinery)
+//*upload file to local 
 const uploadCloud = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
@@ -122,6 +122,7 @@ const uploadCloud = multer({
   })
 })
 
+//*upload file to cloud (cloudinery)
 exports.uploadCould = uploadCloud.single('profilePicture')
 exports.register = async (req, res, next) => {
   try {
@@ -133,7 +134,7 @@ exports.register = async (req, res, next) => {
     req.file && await cloudinary.uploader.upload(req.file.path, async (err, result) => { // picture case
       if (err) console.log(`err`, err)
       else console.log(`result`, result)
-      fs.unlinkSync(req.file.path)
+      // fs.unlinkSync(req.file.path)
       profilePicture = result.secure_url
     })
     console.log(`profilePicture`, profilePicture)

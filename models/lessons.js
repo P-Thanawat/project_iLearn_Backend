@@ -14,15 +14,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     firstTypeTag: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     secondTypeTag: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     thirdTypeTag: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     }
   },
     {
@@ -59,6 +59,15 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     lessons.hasMany(models.lessonOption, {
+      foreignKey: {
+        name: 'lessonsId',
+        allowNull: false
+      },
+      onDelete: 'RESTRICT',
+      onUpdate: 'RESTRICT'
+    });
+
+    lessons.hasMany(models.reviews, {
       foreignKey: {
         name: 'lessonsId',
         allowNull: false

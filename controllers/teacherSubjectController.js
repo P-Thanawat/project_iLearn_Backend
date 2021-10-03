@@ -11,11 +11,11 @@ exports.getAllTeacherSubject = async (req, res, next) => {
   }
 }
 
-// get data by id
-exports.getTeacherSubjectById = async (req, res, next) => {
+// get data by teacherProfile id
+exports.getTeacherSubjectById = async (req, res, next) => { //used in teacherProfile
   try {
     const { id } = req.params;
-    const data = await teacherSubject.findOne({ where: { id, userAccountId: req.user.id } })
+    const data = await teacherSubject.findAll({ where: { teacherProfileId: id } })
     res.json({ data })
   }
   catch (err) {
@@ -26,10 +26,11 @@ exports.getTeacherSubjectById = async (req, res, next) => {
 // create data
 exports.createTeacherSubject = async (req, res, next) => {
   try {
-    const { intoduceContent, presentText, aboutTeacher, recommendLesson, ableBooking, ableContact } = req.body;
+    const { subject, teacherProfileId } = req.body;
+    console.log(`teacherProfileId`, teacherProfileId)
     const data = await teacherSubject.create({
-      ...req.body,
-      userAccountId: req.user.id
+      subject,
+      teacherProfileId,
     })
     res.status(201).json({ data })
   }

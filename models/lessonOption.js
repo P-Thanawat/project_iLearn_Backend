@@ -10,15 +10,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     promotionTime: {
       type: DataTypes.DECIMAL, //? text content
-      allowNull: false,
+      allowNull: true,
     },
     numberOfLesson: {
       type: DataTypes.DECIMAL,
-      allowNull: false,
+      allowNull: true,
     },
     promotionPrice: {
       type: DataTypes.DECIMAL,
-      allowNull: false,
+      allowNull: true,
     },
   },
     {
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
   lessonOption.associate = models => {
     lessonOption.belongsTo(models.lessons, {
       foreignKey: {
-        name: 'lessonId',
+        name: 'lessonsId',
         allowNull: false
       },
       onDelete: 'RESTRICT',

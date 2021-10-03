@@ -12,10 +12,10 @@ exports.getAllLanguageSpeak = async (req, res, next) => {
 }
 
 // get data by id
-exports.getLanguageSpeakById = async (req, res, next) => {
+exports.getLanguageSpeakById = async (req, res, next) => { // used in teacherProfile
   try {
     const { id } = req.params;
-    const data = await languageSpeak.findOne({ where: { id, userAccountId: req.user.id } })
+    const data = await languageSpeak.findAll({ where: { userAccountId: id } })
     res.json({ data })
   }
   catch (err) {
@@ -24,7 +24,7 @@ exports.getLanguageSpeakById = async (req, res, next) => {
 }
 
 // create data
-exports.createLanguageSpeak = async (req, res, next) => {
+exports.createLanguageSpeak = async (req, res, next) => { //used in learnForm teacherForm
   try {
     const { language } = req.body;
     const data = await languageSpeak.create({

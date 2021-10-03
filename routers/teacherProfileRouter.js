@@ -7,7 +7,7 @@ const teacherProfileRouter = express.Router();
 teacherProfileRouter.get('/', teacherProfileController.getAllTeacherProfile)
 teacherProfileRouter.get('/:id', teacherProfileController.getTeacherProfileById)
 teacherProfileRouter.get('/byUserId/:id', teacherProfileController.getTeacherProfileByUserId)
-teacherProfileRouter.post('/', teacherProfileController.createTeacherProfile)
+teacherProfileRouter.post('/', userController.authenticate, teacherProfileController.uploadCloud, teacherProfileController.createTeacherProfile) //need token
 teacherProfileRouter.put('/:id', teacherProfileController.updateTeacherProfile)
 teacherProfileRouter.delete('/:id', teacherProfileController.deleteTeacherProfile)
 

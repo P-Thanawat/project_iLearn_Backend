@@ -26,9 +26,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   )
   reviews.associate = models => {
-    reviews.belongsTo(models.teacherProfile, {
+    reviews.belongsTo(models.lessons, {
       foreignKey: {
-        name: 'teacherProfileId',
+        name: 'lessonsId',
         allowNull: false
       },
       onDelete: 'RESTRICT',

@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const teacherProfile = sequelize.define('teacherProfile', {
-    intoduceContent: {
+    introduceContent: {
       type: DataTypes.STRING, //? url
       allowNull: false
     },
@@ -9,12 +9,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     aboutTeacher: {
-      type: DataTypes.STRING, //? text content
+      type: DataTypes.STRING(1000), //? text content
       allowNull: false,
     },
     recommendLesson: {
       type: DataTypes.STRING, //? text content
-      allowNull: false,
+      allowNull: true,
     },
     ableBooking: {
       type: DataTypes.BOOLEAN,
@@ -59,14 +59,14 @@ module.exports = (sequelize, DataTypes) => {
     //   onUpdate: 'RESTRICT'
     // });
 
-    teacherProfile.hasMany(models.reviews, {
-      foreignKey: {
-        name: 'teacherProfileId',
-        allowNull: false
-      },
-      onDelete: 'RESTRICT',
-      onUpdate: 'RESTRICT'
-    });
+    // teacherProfile.hasMany(models.reviews, {
+    //   foreignKey: {
+    //     name: 'teacherProfileId',
+    //     allowNull: false
+    //   },
+    //   onDelete: 'RESTRICT',
+    //   onUpdate: 'RESTRICT'
+    // });
 
     teacherProfile.hasMany(models.teacherSubject, {
       foreignKey: {
