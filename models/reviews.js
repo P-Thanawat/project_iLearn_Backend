@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const reviews = sequelize.define('reviews', {
     reviewPoint: {
-      type: DataTypes.DECIMAL, //? url
+      type: DataTypes.DECIMAL(10, 1), //? url
       allowNull: false
     },
     reviewMessage: {
@@ -10,15 +10,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     fisrtTag: {
       type: DataTypes.STRING, //? text content
-      allowNull: false,
+      allowNull: true,
     },
     secondTag: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     thirdTag: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
   },
     {

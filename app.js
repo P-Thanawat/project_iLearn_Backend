@@ -26,6 +26,7 @@ const userAccountRouter = require('./routers/userAccountRouter')
 const userFriendRouter = require('./routers/userFriendRouter')
 const userGroupRouter = require('./routers/userGroupRouter')
 const userMessageRouter = require('./routers/userMessageRouter')
+const lessonsRecordRouter = require('./routers/lessonsRecordRouter')
 
 // sequelize.sync({ force: true });
 
@@ -52,6 +53,7 @@ app.use('/languageSpeak', languageSpeakRouter)
 app.use('/learnerProfile', learnerProfileRouter)
 app.use('/learnerSkill', learnerSkillRouter)
 app.use('/lessonOption', lessonOptionRouter)
+app.use('/lessonsRecord', lessonsRecordRouter)
 app.use('/lessons', lessonsRouter)
 app.use('/postComment', postCommentRouter)
 app.use('/profilePost', profilePostRouter)

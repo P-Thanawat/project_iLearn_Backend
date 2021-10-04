@@ -1,4 +1,4 @@
-const { lessonsRecord } = require("../models")
+const { lessonsRecord, lessons } = require("../models")
 
 // get all data
 exports.getAllLessonsRecord = async (req, res, next) => {
@@ -12,10 +12,19 @@ exports.getAllLessonsRecord = async (req, res, next) => {
 }
 
 // get data by id
-exports.getLessonsRecordById = async (req, res, next) => {
+exports.getLessonsRecordById = async (req, res, next) => { //used in teacherProfile
   try {
     const { id } = req.params;
-    const data = await lessonsRecord.findOne({ where: { id, userAccountId: req.user.id } })
+    const data = await lessonsRecord.findAll({
+      where: {
+        '$lesson.teacherProfile.id$': id
+      },
+      include: {
+        association: 'lesson',
+        include: 'teacherProfile'
+      }
+
+    })
     res.json({ data })
   }
   catch (err) {

@@ -1,4 +1,4 @@
-const { reviews } = require("../models")
+const { reviews, lessons } = require("../models")
 
 // get all data
 exports.getAllReviews = async (req, res, next) => {
@@ -12,10 +12,20 @@ exports.getAllReviews = async (req, res, next) => {
 }
 
 // get data by id
-exports.getReviewsById = async (req, res, next) => {
+exports.getReviewsById = async (req, res, next) => { //used in tacheProfile
   try {
     const { id } = req.params;
-    const data = await reviews.findOne({ where: { id, userAccountId: req.user.id } })
+    const data = await reviews.findAll({
+      where: { lessonsId: id },
+      include: [
+        {
+          association: 'userAccount',
+          attributes: { exclude: ['password'] }
+        },
+        lessons
+      ]
+
+    })
     res.json({ data })
   }
   catch (err) {

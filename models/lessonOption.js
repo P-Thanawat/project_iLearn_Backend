@@ -8,10 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL,
       allowNull: false
     },
-    promotionTime: {
-      type: DataTypes.DECIMAL, //? text content
-      allowNull: true,
-    },
+
     numberOfLesson: {
       type: DataTypes.DECIMAL,
       allowNull: true,

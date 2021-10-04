@@ -24,12 +24,12 @@ exports.getLessonOptionById = async (req, res, next) => { // used in taecherProf
 }
 
 // create data
-exports.createLessonOption = async (req, res, next) => {
+exports.createLessonOption = async (req, res, next) => { // used in lessonForm
   try {
-    const { intoduceContent, presentText, aboutTeacher, recommendLesson, ableBooking, ableContact } = req.body;
+    const { lessonTime, lessonPrice, numberOfLesson, promotionPrice, lessonsId } = req.body;
     const data = await lessonOption.create({
       ...req.body,
-      userAccountId: req.user.id
+      lessonsId: lessonsId
     })
     res.status(201).json({ data })
   }
