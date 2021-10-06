@@ -70,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
     lessons.hasMany(models.reviews, {
       foreignKey: {
         name: 'lessonsId',
-        allowNull: false
+        allowNull: false,
       },
       onDelete: 'RESTRICT',
       onUpdate: 'RESTRICT'
