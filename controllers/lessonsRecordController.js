@@ -1,5 +1,6 @@
 const { lessonsRecord, lessons } = require("../models")
 
+
 // get all data
 exports.getAllLessonsRecord = async (req, res, next) => {
   try {
@@ -35,10 +36,13 @@ exports.getLessonsRecordById = async (req, res, next) => { //used in teacherProf
 // create data
 exports.createLessonsRecord = async (req, res, next) => {
   try {
-    const { intoduceContent, presentText, aboutTeacher, recommendLesson, ableBooking, ableContact } = req.body;
+    const { startLearnTime, endLearnTime, completed, userAccountId, lessonsId } = req.body;
     const data = await lessonsRecord.create({
-      ...req.body,
-      userAccountId: req.user.id
+      startLearnTime,
+      endLearnTime,
+      completed,
+      userAccountId,
+      lessonsId
     })
     res.status(201).json({ data })
   }
