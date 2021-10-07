@@ -1,9 +1,9 @@
 const express = require('express')
 const lessonsRecordController = require('../controllers/lessonsRecordController')
-
+const userController = require('../controllers/userController')
 const lessonsRecordRouter = express.Router();
 
-lessonsRecordRouter.get('/', lessonsRecordController.getAllLessonsRecord)
+lessonsRecordRouter.get('/', userController.authenticate, lessonsRecordController.getAllLessonsRecord)
 lessonsRecordRouter.get('/:id', lessonsRecordController.getLessonsRecordById)
 lessonsRecordRouter.post('/', lessonsRecordController.createLessonsRecord)
 lessonsRecordRouter.put('/:id', lessonsRecordController.updateLessonsRecord)

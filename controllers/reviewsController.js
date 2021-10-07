@@ -36,10 +36,15 @@ exports.getReviewsById = async (req, res, next) => { //used in tacheProfile
 // create data
 exports.createReviews = async (req, res, next) => {
   try {
-    const { intoduceContent, presentText, aboutTeacher, recommendLesson, ableBooking, ableContact } = req.body;
+    const { reviewPoint, reviewMessage, fisrtTag, secondTag, thirdTag, lessonsId, userAccountId } = req.body;
     const data = await reviews.create({
-      ...req.body,
-      userAccountId: req.user.id
+      reviewPoint,
+      reviewMessage,
+      fisrtTag,
+      secondTag,
+      thirdTag,
+      lessonsId,
+      userAccountId,
     })
     res.status(201).json({ data })
   }

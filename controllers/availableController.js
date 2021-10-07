@@ -22,8 +22,7 @@ exports.getAvailableById = async (req, res, next) => {
   try {
     const { id } = req.params;
     //prepare data
-    const teacherProfileFound = await teacherProfile.findOne({ where: { userAccountId: req.user.id } })
-    const data = await available.findOne({ where: { id, userAccountId: teacherProfileFound.id } })
+    const data = await available.findAll({ where: { teacherProfileId: id } })
     res.json({ data })
   }
   catch (err) {
@@ -32,7 +31,7 @@ exports.getAvailableById = async (req, res, next) => {
 }
 
 // create data
-exports.createAvailable = async (req, res, next) => {
+exports.createAvailable = async (req, res, next) => { // used in availablecalendar
   try {
     console.log('create')
     const { startAvailableTime, endAvailableTime } = req.body;
@@ -72,16 +71,15 @@ exports.updateAvailable = async (req, res, next) => {
 }
 
 // delete data by id
-exports.deleteAvailable = async (req, res, next) => {
+exports.deleteAvailable = async (req, res, next) => { // used in availablecalendar
   try {
     const { id } = req.params;
     const rows = await available.destroy({
       where: {
-        id,
-        userAccountId: req.user.id
+        teacherProfileId: id
       }
     })
-    if (rows === 0) return res.status(400).json({ message: 'Delete is failed' })
+    // if (rows === 0) return res.status(400).json({ message: 'Delete is failed' })
     res.status(204).json()
   }
   catch (err) {

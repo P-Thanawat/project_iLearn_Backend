@@ -161,6 +161,15 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'RESTRICT'
     });
 
+    userAccount.hasMany(models.reviews, {
+      foreignKey: {
+        name: 'userAccountId',
+        allowNull: false
+      },
+      onDelete: 'RESTRICT',
+      onUpdate: 'RESTRICT'
+    });
+
 
   }
 

@@ -2,9 +2,12 @@ const { lessonsRecord, lessons } = require("../models")
 
 
 // get all data
-exports.getAllLessonsRecord = async (req, res, next) => {
+exports.getAllLessonsRecord = async (req, res, next) => { //used in app
   try {
-    const data = await lessonsRecord.findAll({ where: { userAccountId: req.user.id } })
+    const data = await lessonsRecord.findAll({
+      where: { userAccountId: req.user.id },
+      include: { model: lessons }
+    })
     res.json({ data })
   }
   catch (err) {
@@ -12,8 +15,8 @@ exports.getAllLessonsRecord = async (req, res, next) => {
   }
 }
 
-// get data by id
-exports.getLessonsRecordById = async (req, res, next) => { //used in teacherProfile
+// get data by teacherProfileId id
+exports.getLessonsRecordById = async (req, res, next) => { //used in teacherProfile bookingcalendar
   try {
     const { id } = req.params;
     const data = await lessonsRecord.findAll({
@@ -55,11 +58,13 @@ exports.createLessonsRecord = async (req, res, next) => {
 exports.updateLessonsRecord = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { intoduceContent, presentText, aboutTeacher, ableBooking, ableContact } = req.body;
-    const [rows] = await lessonsRecord.update({ ...req.body }, {
+    const { completed } = req.body;
+    const [rows] = await lessonsRecord.update({
+      completed: true,
+
+    }, {
       where: {
-        id,
-        userAccountId: req.user.id
+        id
       }
     })
     if (rows === 0) return res.status(400).json({ message: 'Update is failed' })

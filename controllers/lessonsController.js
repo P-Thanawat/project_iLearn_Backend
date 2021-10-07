@@ -77,11 +77,12 @@ exports.createLessons = async (req, res, next) => { //used in lessonForm
 exports.updateLessons = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { intoduceContent, presentText, aboutTeacher, ableBooking, ableContact } = req.body;
-    const [rows] = await lessons.update({ ...req.body }, {
+    const { completed } = req.body;
+    const [rows] = await lessons.update({
+      completed
+    }, {
       where: {
-        id,
-        userAccountId: req.user.id
+        id
       }
     })
     if (rows === 0) return res.status(400).json({ message: 'Update is failed' })
