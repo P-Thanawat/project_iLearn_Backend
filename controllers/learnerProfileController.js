@@ -12,10 +12,10 @@ exports.getAllLearnerProfile = async (req, res, next) => {
 }
 
 // get data by id
-exports.getLearnerProfileById = async (req, res, next) => {
+exports.getLearnerProfileById = async (req, res, next) => { // used in learnerProfile
   try {
     const { id } = req.params;
-    const data = await learnerProfile.findOne({ where: { id } })
+    const data = await learnerProfile.findOne({ where: { userAccountId: id } })
     res.json({ data })
   }
   catch (err) {
@@ -38,7 +38,8 @@ exports.getLearnerProfileByUserId = async (req, res, next) => {
 // create data
 exports.createLearnerProfile = async (req, res, next) => {
   try {
-    console.log(`req.user`, req.user)
+    console.log('gerererereS')
+    console.log(`req.body`, req.body)
     const { learnerAbouteMe } = req.body;
     const data = await learnerProfile.create({
       ...req.body,

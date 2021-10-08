@@ -1,4 +1,4 @@
-const { profilePost } = require("../models")
+const { profilePost, userAccount } = require("../models")
 
 // get all data
 exports.getAllProfilePost = async (req, res, next) => {
@@ -12,10 +12,17 @@ exports.getAllProfilePost = async (req, res, next) => {
 }
 
 // get data by id
-exports.getProfilePostById = async (req, res, next) => {
+exports.getProfilePostById = async (req, res, next) => { // used in learnprofile
   try {
     const { id } = req.params;
-    const data = await profilePost.findOne({ where: { id, userAccountId: req.user.id } })
+    const data = await profilePost.findAll({
+      where: { learnerProfileId: id },
+      include: {
+        model: userAccount,
+        as: 'postUser',
+        attributes: { exclude: ['password'] }
+      }
+    })
     res.json({ data })
   }
   catch (err) {

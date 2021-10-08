@@ -1,16 +1,14 @@
 module.exports = (sequelize, DataTypes) => {
-  const postComment = sequelize.define('postComment', {
-    commentContent: {
-      type: DataTypes.STRING,
-      allowNull: false
-    }
+  const postLike = sequelize.define('postLike', {
+
+
   },
     {
       underscored: true
     }
   )
-  postComment.associate = models => {
-    postComment.belongsTo(models.profilePost, {
+  postLike.associate = models => {
+    postLike.belongsTo(models.profilePost, {
       foreignKey: {
         name: 'profilePostId',
         allowNull: false
@@ -18,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'RESTRICT',
       onUpdate: 'RESTRICT'
     });
-    postComment.belongsTo(models.userAccount, {
+    postLike.belongsTo(models.userAccount, {
       foreignKey: {
         name: 'userAccountId',
         allowNull: false
@@ -26,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'RESTRICT',
       onUpdate: 'RESTRICT'
     });
+
   }
 
-  return postComment;
+  return postLike;
 }

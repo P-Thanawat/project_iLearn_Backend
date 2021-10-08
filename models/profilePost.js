@@ -1,13 +1,14 @@
 module.exports = (sequelize, DataTypes) => {
   const profilePost = sequelize.define('profilePost', {
     postContent: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(1000),
       allowNull: false
     },
-    postLike: {
-      type: DataTypes.DECIMAL,
+    postPicture: {
+      type: DataTypes.STRING,
       allowNull: true
-    }
+    },
+
   },
     {
       underscored: true
@@ -28,6 +29,22 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       as: 'postUser',
+      onDelete: 'RESTRICT',
+      onUpdate: 'RESTRICT'
+    });
+    profilePost.hasMany(models.postComment, {
+      foreignKey: {
+        name: 'profilePostId',
+        allowNull: false
+      },
+      onDelete: 'RESTRICT',
+      onUpdate: 'RESTRICT'
+    });
+    profilePost.hasMany(models.postLike, {
+      foreignKey: {
+        name: 'profilePostId',
+        allowNull: false
+      },
       onDelete: 'RESTRICT',
       onUpdate: 'RESTRICT'
     });

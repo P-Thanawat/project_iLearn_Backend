@@ -15,7 +15,7 @@ exports.getAllFollower = async (req, res, next) => {
 exports.getFollowerById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const data = await follower.findOne({ where: { id, userAccountId: req.user.id } })
+    const data = await follower.findAll({ where: { learnerProfileId: id } })
     res.json({ data })
   }
   catch (err) {

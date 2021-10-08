@@ -12,10 +12,10 @@ exports.getAllLearnerSkill = async (req, res, next) => {
 }
 
 // get data by id
-exports.getLearnerSkillById = async (req, res, next) => {
+exports.getLearnerSkillById = async (req, res, next) => { // used in learnProfile
   try {
     const { id } = req.params;
-    const data = await learnerSkill.findOne({ where: { id, userAccountId: req.user.id } })
+    const data = await learnerSkill.findAll({ where: { learnerProfileId: id } })
     res.json({ data })
   }
   catch (err) {
@@ -24,12 +24,12 @@ exports.getLearnerSkillById = async (req, res, next) => {
 }
 
 // create data
-exports.createLearnerSkill = async (req, res, next) => {
+exports.createLearnerSkill = async (req, res, next) => { //used in learnerProfile
   try {
-    const { intoduceContent, presentText, aboutTeacher, recommendLesson, ableBooking, ableContact } = req.body;
+    const { skill, learnerProfileId } = req.body;
     const data = await learnerSkill.create({
-      ...req.body,
-      userAccountId: req.user.id
+      skill,
+      learnerProfileId
     })
     res.status(201).json({ data })
   }

@@ -27,8 +27,11 @@ const userFriendRouter = require('./routers/userFriendRouter')
 const userGroupRouter = require('./routers/userGroupRouter')
 const userMessageRouter = require('./routers/userMessageRouter')
 const lessonsRecordRouter = require('./routers/lessonsRecordRouter')
+const followingRouter = require('./routers/followingRouter')
+const postLikeRouter = require('./routers/postLikeRouter')
 
 // sequelize.sync({ force: true });
+// sequelize.sync();
 
 const app = express();
 app.use(cors())
@@ -45,7 +48,7 @@ app.use('/commentReply', commentReplyRouter)
 app.use('/creditCard', creditCardRouter)
 app.use('/exchangeGroup', exchangeGroupRouter)
 app.use('/follower', followerRouter)
-app.use('/following', teacherProfileRouter)
+app.use('/following', followingRouter)
 app.use('/groupFeed', groupFeedRouter)
 app.use('/groupPostComment', groupPostCommentRouter)
 app.use('/groupPostCommentReply', groupPostCommentReplyRouter)
@@ -64,6 +67,7 @@ app.use('/userAccount', userAccountRouter)
 app.use('/userFriend', userFriendRouter)
 app.use('/userGroup', userGroupRouter)
 app.use('/userMessage', userMessageRouter)
+app.use('/postLike', postLikeRouter)
 
 
 //? handle path and method not found

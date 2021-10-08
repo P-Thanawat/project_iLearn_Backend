@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
   learnerSkill.associate = models => {
     learnerSkill.belongsTo(models.learnerProfile, {
       foreignKey: {
-        name: 'learnProfileId',
+        name: 'learnerProfileId',
         allowNull: false
       },
       onDelete: 'RESTRICT',

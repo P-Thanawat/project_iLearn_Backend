@@ -12,10 +12,10 @@ exports.getAllFollowing = async (req, res, next) => {
 }
 
 // get data by id
-exports.getFollowingById = async (req, res, next) => {
+exports.getFollowingById = async (req, res, next) => { //used in learnProfile
   try {
     const { id } = req.params;
-    const data = await following.findOne({ where: { id, userAccountId: req.user.id } })
+    const data = await following.findAll({ where: { learnerProfileId: id } })
     res.json({ data })
   }
   catch (err) {

@@ -170,6 +170,23 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'RESTRICT'
     });
 
+    userAccount.hasMany(models.postComment, {
+      foreignKey: {
+        name: 'userAccountId',
+        allowNull: false
+      },
+      onDelete: 'RESTRICT',
+      onUpdate: 'RESTRICT'
+    });
+    userAccount.hasMany(models.postLike, {
+      foreignKey: {
+        name: 'userAccountId',
+        allowNull: false
+      },
+      onDelete: 'RESTRICT',
+      onUpdate: 'RESTRICT'
+    });
+
 
   }
 

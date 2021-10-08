@@ -1,9 +1,9 @@
-const { postComment } = require("../models")
+const { profilePost, userAccount } = require("../models")
 
 // get all data
-exports.getAllPostComment = async (req, res, next) => {
+exports.getAllPostLike = async (req, res, next) => {
   try {
-    const data = await postComment.findAll({ where: { userAccountId: req.user.id } })
+    const data = await profilePost.findAll({ where: { userAccountId: req.user.id } })
     res.json({ data })
   }
   catch (err) {
@@ -11,11 +11,18 @@ exports.getAllPostComment = async (req, res, next) => {
   }
 }
 
-// get data by profilePost id
-exports.getPostCommentById = async (req, res, next) => { // used in learnerPRofile
+// get data by id
+exports.getPostLikeById = async (req, res, next) => { // used in learnprofile
   try {
     const { id } = req.params;
-    const data = await postComment.findAll({ where: { profilePostId: id } })
+    const data = await profilePost.findAll({
+      where: { learnerProfileId: id },
+      include: {
+        model: userAccount,
+        as: 'postUser',
+        attributes: { exclude: ['password'] }
+      }
+    })
     res.json({ data })
   }
   catch (err) {
@@ -24,10 +31,10 @@ exports.getPostCommentById = async (req, res, next) => { // used in learnerPRofi
 }
 
 // create data
-exports.createPostComment = async (req, res, next) => {
+exports.createPostLike = async (req, res, next) => {
   try {
     const { intoduceContent, presentText, aboutTeacher, recommendLesson, ableBooking, ableContact } = req.body;
-    const data = await postComment.create({
+    const data = await profilePost.create({
       ...req.body,
       userAccountId: req.user.id
     })
@@ -39,11 +46,11 @@ exports.createPostComment = async (req, res, next) => {
 }
 
 // update data by id
-exports.updatePostComment = async (req, res, next) => {
+exports.updatePostLike = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { intoduceContent, presentText, aboutTeacher, ableBooking, ableContact } = req.body;
-    const [rows] = await postComment.update({ ...req.body }, {
+    const [rows] = await profilePost.update({ ...req.body }, {
       where: {
         id,
         userAccountId: req.user.id
@@ -58,10 +65,10 @@ exports.updatePostComment = async (req, res, next) => {
 }
 
 // delete data by id
-exports.deletePostComment = async (req, res, next) => {
+exports.deletePostLike = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const rows = await postComment.destroy({
+    const rows = await profilePost.destroy({
       where: {
         id,
         userAccountId: req.user.id
