@@ -4,10 +4,10 @@ const userController = require('../controllers/userController')
 
 const commentReplyRouter = express.Router();
 
-commentReplyRouter.use('/', userController.authenticate);
+// commentReplyRouter.use('/', userController.authenticate);
 commentReplyRouter.get('/', commentReplyController.getAllCommentReply)
 commentReplyRouter.get('/:id', commentReplyController.getCommentReplyById)
-commentReplyRouter.post('/', commentReplyController.createCommentReply)
+commentReplyRouter.post('/', userController.authenticate, commentReplyController.createCommentReply)
 commentReplyRouter.put('/:id', commentReplyController.updateCommentReply)
 commentReplyRouter.delete('/:id', commentReplyController.deleteCommentReply)
 

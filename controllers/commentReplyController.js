@@ -1,4 +1,4 @@
-const { commentReply, teacherProfile } = require("../models")
+const { commentReply, teacherProfile, userAccount } = require("../models")
 
 // get all data
 exports.getAllCommentReply = async (req, res, next) => {
@@ -23,20 +23,26 @@ exports.getAllCommentReply = async (req, res, next) => {
 }
 
 // get data by id
-exports.getCommentReplyById = async (req, res, next) => {
+exports.getCommentReplyById = async (req, res, next) => { //used in learnerProfile
   try {
     const { id } = req.params;
-    const data = await commentReply.findOne({
-      where: { id, '$postComment.profilePost.postUser.id$': req.user.id },
-      include: {
+    const data = await commentReply.findAll({
+      where: { '$postComment.profilePost.learner_profile_id$': id },
+      include: [{
         association: 'postComment',
         include: {
           association: 'profilePost',
           include: {
-            association: 'postUser'
+            association: 'learnerProfile'
           }
         }
+      },
+      {
+        model: userAccount,
+        attributes: { exclude: ['password'] }
+
       }
+      ]
     })
     res.json({ data })
   }
@@ -46,13 +52,14 @@ exports.getCommentReplyById = async (req, res, next) => {
 }
 
 // create data
-exports.createCommentReply = async (req, res, next) => {
+exports.createCommentReply = async (req, res, next) => { //used in learnerProfile
   try {
-    console.log('create')
-    const { commentReplyContent } = req.body;
+    const { commentReplyContent, postCommentId } = req.body;
     const data = await commentReply.create({
-      ...req.body,
-      postCommentId: '$postComment.id$'
+      commentReplyContent,
+      postCommentId,
+      userAccountId: req.user.id
+      // postCommentId: '$postComment.id$'
     })
     res.status(201).json({ data })
   }
