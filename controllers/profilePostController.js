@@ -1,4 +1,7 @@
 const { profilePost, userAccount } = require("../models")
+const multer = require('multer')
+const cloudinary = require('cloudinary').v2;
+const fs = require('fs')
 
 // get all data
 exports.getAllProfilePost = async (req, res, next) => {
@@ -30,13 +33,50 @@ exports.getProfilePostById = async (req, res, next) => { // used in learnprofile
   }
 }
 
+//*upload file to local 
+const uploadCloud = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      console.log(`file`, file) //? fieldname originalname encoding mimetype
+      cb(null, 'public/images') //? select storage folder
+    },
+    filename: (req, file, cb) => {
+      cb(null, `${new Date().getTime()}.${file.mimetype.split('/')[1]}`) //? select file name
+    },
+    fileFilter: (req, file, cb) => {
+      if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+        cb(null, true);
+      } else {
+        cb(null, false);
+        return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+      }
+    }
+
+  })
+})
+
+//*upload file to cloud (cloudinery)
+exports.uploadCloud = uploadCloud.single('postPicture')
+
 // create data
-exports.createProfilePost = async (req, res, next) => {
+exports.createProfilePost = async (req, res, next) => { //used in learnProfile
   try {
-    const { intoduceContent, presentText, aboutTeacher, recommendLesson, ableBooking, ableContact } = req.body;
+    const { postContent, learnerProfileId, userAccountId } = req.body;
+    console.log(`req.file`, req.file)
+    let postPicture = ''
+    req.file && await cloudinary.uploader.upload(req.file.path, async (err, result) => { // picture case
+      if (err) console.log(`err`, err)
+      else console.log(`result`, result)
+      // fs.unlinkSync(req.file.path)
+      postPicture = result.secure_url
+    })
+
+
     const data = await profilePost.create({
-      ...req.body,
-      userAccountId: req.user.id
+      postContent,
+      postPicture: postPicture ?? null,
+      learnerProfileId,
+      userAccountId,
     })
     res.status(201).json({ data })
   }

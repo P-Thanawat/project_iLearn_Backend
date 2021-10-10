@@ -134,7 +134,7 @@ exports.register = async (req, res, next) => {
     req.file && await cloudinary.uploader.upload(req.file.path, async (err, result) => { // picture case
       if (err) console.log(`err`, err)
       else console.log(`result`, result)
-      // fs.unlinkSync(req.file.path)
+      fs.unlinkSync(req.file.path)
       profilePicture = result.secure_url
     })
     console.log(`profilePicture`, profilePicture)

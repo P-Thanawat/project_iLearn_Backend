@@ -1,4 +1,4 @@
-const { postComment } = require("../models")
+const { postComment, profilePost, userAccount } = require("../models")
 
 // get all data
 exports.getAllPostComment = async (req, res, next) => {
@@ -15,7 +15,20 @@ exports.getAllPostComment = async (req, res, next) => {
 exports.getPostCommentById = async (req, res, next) => { // used in learnerPRofile
   try {
     const { id } = req.params;
-    const data = await postComment.findAll({ where: { profilePostId: id } })
+    const data = await postComment.findAll({
+      where: { '$profilePost.learner_profile_id$': id },
+      include: [
+        {
+          model: profilePost
+        },
+        {
+          model: userAccount,
+          attributes: { exclude: ['password'] }
+        }
+      ]
+
+
+    })
     res.json({ data })
   }
   catch (err) {
@@ -24,11 +37,12 @@ exports.getPostCommentById = async (req, res, next) => { // used in learnerPRofi
 }
 
 // create data
-exports.createPostComment = async (req, res, next) => {
+exports.createPostComment = async (req, res, next) => { // used in learnerProfile
   try {
-    const { intoduceContent, presentText, aboutTeacher, recommendLesson, ableBooking, ableContact } = req.body;
+    const { commentContent, profilePostId } = req.body;
     const data = await postComment.create({
-      ...req.body,
+      commentContent,
+      profilePostId,
       userAccountId: req.user.id
     })
     res.status(201).json({ data })

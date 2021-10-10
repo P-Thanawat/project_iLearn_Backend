@@ -5,7 +5,7 @@ const profilePostRouter = express.Router();
 
 profilePostRouter.get('/', profilePostController.getAllProfilePost)
 profilePostRouter.get('/:id', profilePostController.getProfilePostById)
-profilePostRouter.post('/', profilePostController.createProfilePost)
+profilePostRouter.post('/', profilePostController.uploadCloud, profilePostController.createProfilePost)
 profilePostRouter.put('/:id', profilePostController.updateProfilePost)
 profilePostRouter.delete('/:id', profilePostController.deleteProfilePost)
 
