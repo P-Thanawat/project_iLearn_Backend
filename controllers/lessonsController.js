@@ -1,12 +1,20 @@
-const { lessons, teacherProfile } = require("../models")
+const { lessons, teacherProfile, userAccount } = require("../models")
 const multer = require('multer')
 const cloudinary = require('cloudinary').v2;
 const fs = require('fs')
 
 // get all data
-exports.getAllLessons = async (req, res, next) => {
+exports.getAllLessons = async (req, res, next) => { // used in home
   try {
-    const data = await lessons.findAll({ where: { userAccountId: req.user.id } })
+    const data = await lessons.findAll({
+      include: {
+        model: teacherProfile,
+        include: {
+          model: userAccount,
+          attributes: { exclude: ['password'] }
+        }
+      }
+    })
     res.json({ data })
   }
   catch (err) {

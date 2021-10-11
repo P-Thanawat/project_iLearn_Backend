@@ -1,9 +1,9 @@
 const { reviews, lessons } = require("../models")
 
 // get all data
-exports.getAllReviews = async (req, res, next) => {
+exports.getAllReviews = async (req, res, next) => { //used in home
   try {
-    const data = await reviews.findAll({ where: { userAccountId: req.user.id } })
+    const data = await reviews.findAll()
     res.json({ data })
   }
   catch (err) {
