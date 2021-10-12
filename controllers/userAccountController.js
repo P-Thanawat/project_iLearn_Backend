@@ -93,6 +93,23 @@ exports.updateUserAccount = async (req, res, next) => { //usde in learnerProfile
   }
 }
 
+exports.updateCredit = async (req, res, next) => { //usde in learnerProfile
+  try {
+    const { credit } = req.body
+    const user = await userAccount.findOne({ where: { id: req.user.id } })
+    const [rows] = await userAccount.update({ credit: +user.credit + +credit }, {
+      where: {
+        id: req.user.id
+      }
+    })
+    if (rows === 0) return res.status(400).json({ message: 'Update is failed' })
+    res.json({ message: 'Update is successful' })
+  }
+  catch (err) {
+    next(err)
+  }
+}
+
 // delete data by id
 exports.deleteUserAccount = async (req, res, next) => {
   try {

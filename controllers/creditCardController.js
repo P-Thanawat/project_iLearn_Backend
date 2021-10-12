@@ -12,10 +12,10 @@ exports.getAllCreditCard = async (req, res, next) => {
 }
 
 // get data by id
-exports.getCreditCardById = async (req, res, next) => {
+exports.getCreditCardById = async (req, res, next) => { //used in payment
   try {
     const { id } = req.params;
-    const data = await creditCard.findOne({ where: { id, userAccountId: req.user.id } })
+    const data = await creditCard.findAll({ where: { userAccountId: id } })
     res.json({ data })
   }
   catch (err) {
@@ -24,11 +24,14 @@ exports.getCreditCardById = async (req, res, next) => {
 }
 
 // create data
-exports.createCreditCard = async (req, res, next) => {
+exports.createCreditCard = async (req, res, next) => { //used in add credit card
   try {
-    const { intoduceContent, presentText, aboutTeacher, recommendLesson, ableBooking, ableContact } = req.body;
+    const { cardNumber, expiration, securityCode, confirmCard } = req.body;
     const data = await creditCard.create({
-      ...req.body,
+      cardNumber,
+      expiration,
+      securityCode,
+      confirmCard,
       userAccountId: req.user.id
     })
     res.status(201).json({ data })

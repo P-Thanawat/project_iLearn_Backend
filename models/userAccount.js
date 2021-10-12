@@ -36,6 +36,11 @@ module.exports = (sequelize, DataTypes) => {
     livingArea: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    credit: {
+      type: DataTypes.DECIMAL,
+      allowNull: true,
+      defaultValue: 0
     }
   },
     {

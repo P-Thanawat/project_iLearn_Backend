@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const creditCard = sequelize.define('creditCard', {
     cardNumber: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.STRING,
       allowNull: false
     },
     expiration: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
       allowNull: false
     },
     securityCode: {
