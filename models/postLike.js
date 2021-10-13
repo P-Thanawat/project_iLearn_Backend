@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         name: 'profilePostId',
         allowNull: false
       },
-      onDelete: 'RESTRICT',
+      onDelete: 'CADCASE',
       onUpdate: 'RESTRICT'
     });
     postLike.belongsTo(models.userAccount, {

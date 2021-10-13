@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         name: 'postCommentId',
         allowNull: false
       },
-      onDelete: 'RESTRICT',
+      onDelete: 'CASCADE',
       onUpdate: 'RESTRICT'
     });
 

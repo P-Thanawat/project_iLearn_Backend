@@ -56,11 +56,12 @@ exports.createPostComment = async (req, res, next) => { // used in learnerProfil
 exports.updatePostComment = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { intoduceContent, presentText, aboutTeacher, ableBooking, ableContact } = req.body;
-    const [rows] = await postComment.update({ ...req.body }, {
+    console.log(`id`, id)
+    const { commentContent } = req.body;
+    console.log(`commentContent`, commentContent)
+    const [rows] = await postComment.update({ commentContent }, {
       where: {
-        id,
-        userAccountId: req.user.id
+        id
       }
     })
     if (rows === 0) return res.status(400).json({ message: 'Update is failed' })
@@ -78,7 +79,6 @@ exports.deletePostComment = async (req, res, next) => {
     const rows = await postComment.destroy({
       where: {
         id,
-        userAccountId: req.user.id
       }
     })
     if (rows === 0) return res.status(400).json({ message: 'Delete is failed' })

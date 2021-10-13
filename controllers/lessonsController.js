@@ -85,9 +85,22 @@ exports.createLessons = async (req, res, next) => { //used in lessonForm
 exports.updateLessons = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { completed } = req.body;
+    const { lessonName, lessonDetail, firstTypeTag, secondTypeTag, thirdTypeTag } = req.body;
+    let lessonPicutre = ''
+    req.file && await cloudinary.uploader.upload(req.file.path, async (err, result) => { // picture case
+      if (err) console.log(`err`, err)
+      else console.log(`result`, result)
+      fs.unlinkSync(req.file.path)
+      lessonPicutre = result.secure_url
+    })
+
     const [rows] = await lessons.update({
-      completed
+      lessonName,
+      lessonDetail,
+      lessonPicutre: lessonPicutre ?? null,
+      firstTypeTag,
+      secondTypeTag,
+      thirdTypeTag
     }, {
       where: {
         id

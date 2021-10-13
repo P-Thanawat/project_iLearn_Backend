@@ -69,16 +69,14 @@ exports.createCommentReply = async (req, res, next) => { //used in learnerProfil
 }
 
 // update data by id
-exports.updateCommentReply = async (req, res, next) => {
+exports.updateCommentReply = async (req, res, next) => { //used in learnProfile
   try {
     const { id } = req.params;
-    const { startcommentReplyTime, endcommentReplyTime } = req.body;
+    const { commentReplyContent } = req.body;
     //prepare data
-    const teacherProfileFound = await teacherProfile.findOne({ where: { userAccountId: req.user.id } })
-    const [rows] = await commentReply.update({ ...req.body }, {
+    const [rows] = await commentReply.update({ commentReplyContent }, {
       where: {
-        id,
-        teacherProfileId: teacherProfileFound.id
+        id
       }
     })
     if (rows === 0) return res.status(400).json({ message: 'Update is failed' })
@@ -90,13 +88,12 @@ exports.updateCommentReply = async (req, res, next) => {
 }
 
 // delete data by id
-exports.deleteCommentReply = async (req, res, next) => {
+exports.deleteCommentReply = async (req, res, next) => { // used in learnProfile
   try {
     const { id } = req.params;
     const rows = await commentReply.destroy({
       where: {
-        id,
-        userAccountId: req.user.id
+        id
       }
     })
     if (rows === 0) return res.status(400).json({ message: 'Delete is failed' })

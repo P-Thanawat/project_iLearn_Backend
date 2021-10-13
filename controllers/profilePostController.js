@@ -86,17 +86,38 @@ exports.createProfilePost = async (req, res, next) => { //used in learnProfile
 }
 
 // update data by id
-exports.updateProfilePost = async (req, res, next) => {
+exports.updateProfilePost = async (req, res, next) => { //used in learnprofile
   try {
-    const { id } = req.params;
-    const { intoduceContent, presentText, aboutTeacher, ableBooking, ableContact } = req.body;
-    const [rows] = await profilePost.update({ ...req.body }, {
-      where: {
-        id,
-        userAccountId: req.user.id
-      }
+    const { postContent, learnerProfileId, userAccountId } = req.body;
+    let postPicture = ''
+    req.file && await cloudinary.uploader.upload(req.file.path, async (err, result) => { // picture case
+      if (err) console.log(`err`, err)
+      else console.log(`result`, result)
+      fs.unlinkSync(req.file.path)
+      postPicture = result.secure_url
     })
-    if (rows === 0) return res.status(400).json({ message: 'Update is failed' })
+    if (!postPicture) {
+      const [rows] = await profilePost.update({
+        postContent,
+      }, {
+        where: {
+          learnerProfileId,
+          userAccountId
+        }
+      })
+    }
+    if (postPicture) {
+      const [rows] = await profilePost.update({
+        postContent,
+        postPicture
+      }, {
+        where: {
+          learnerProfileId,
+          userAccountId
+        }
+      })
+    }
+    // if (rows === 0) return res.status(400).json({ message: 'Update is failed' })
     res.json({ message: 'Update is successful' })
   }
   catch (err) {
@@ -105,13 +126,12 @@ exports.updateProfilePost = async (req, res, next) => {
 }
 
 // delete data by id
-exports.deleteProfilePost = async (req, res, next) => {
+exports.deleteProfilePost = async (req, res, next) => { //used in learnerProfile
   try {
     const { id } = req.params;
     const rows = await profilePost.destroy({
       where: {
         id,
-        userAccountId: req.user.id
       }
     })
     if (rows === 0) return res.status(400).json({ message: 'Delete is failed' })

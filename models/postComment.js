@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         name: 'profilePostId',
         allowNull: false
       },
-      onDelete: 'RESTRICT',
+      onDelete: 'CASCADE',
       onUpdate: 'RESTRICT'
     });
     postComment.belongsTo(models.userAccount, {
