@@ -12,19 +12,19 @@ module.exports = (sequelize, DataTypes) => {
   userMessenger.associate = models => {
     userMessenger.belongsTo(models.userAccount, {
       foreignKey: {
-        name: 'userAccountId',
+        name: 'messageFrom',
         allowNull: false
       },
-      as: 'messageFrom',
+      as: 'messageFromUser',
       onDelete: 'RESTRICT',
       onUpdate: 'RESTRICT'
     });
     userMessenger.belongsTo(models.userAccount, {
       foreignKey: {
-        name: 'userAccountId',
+        name: 'messageTo',
         allowNull: false
       },
-      as: 'messageTo',
+      as: 'messageToUser',
       onDelete: 'RESTRICT',
       onUpdate: 'RESTRICT'
     });

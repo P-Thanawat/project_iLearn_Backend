@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     aboutTeacher: {
-      type: DataTypes.STRING(1000), //? text content
+      type: DataTypes.STRING(3000), //? text content
       allowNull: false,
     },
     recommendLesson: {

@@ -1,4 +1,5 @@
-const { userMessenger } = require("../models")
+const { userMessenger, userAccount } = require("../models")
+const { Op } = require("sequelize");
 
 // get all data
 exports.getAllUserMessenger = async (req, res, next) => {
@@ -12,10 +13,16 @@ exports.getAllUserMessenger = async (req, res, next) => {
 }
 
 // get data by id
-exports.getUserMessengerById = async (req, res, next) => {
+exports.getUserMessengerById = async (req, res, next) => { //used in messenger
   try {
     const { id } = req.params;
-    const data = await userMessenger.findOne({ where: { id, userAccountId: req.user.id } })
+    console.log(`id`, id)
+    const data = await userMessenger.findAll({
+      where: { [Op.or]: [{ messageFrom: id }, { messageTo: id }] },
+      include: {
+        all: true
+      }
+    })
     res.json({ data })
   }
   catch (err) {
@@ -26,10 +33,11 @@ exports.getUserMessengerById = async (req, res, next) => {
 // create data
 exports.createUserMessenger = async (req, res, next) => {
   try {
-    const { intoduceContent, presentText, aboutTeacher, recommendLesson, ableBooking, ableContact } = req.body;
+    const { message, messageFrom, messageTo } = req.body;
     const data = await userMessenger.create({
-      ...req.body,
-      userAccountId: req.user.id
+      message,
+      messageFrom,
+      messageTo
     })
     res.status(201).json({ data })
   }

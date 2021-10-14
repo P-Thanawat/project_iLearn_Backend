@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
         name: 'profilePostId',
         allowNull: false
       },
-      onDelete: 'RESTRICT',
+      onDelete: 'CASCADE',
       onUpdate: 'RESTRICT'
     });
     profilePost.hasMany(models.postLike, {
@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
         name: 'profilePostId',
         allowNull: false
       },
-      onDelete: 'RESTRICT',
+      onDelete: 'CASCADE',
       onUpdate: 'RESTRICT'
     });
   }

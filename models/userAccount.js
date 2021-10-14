@@ -122,37 +122,35 @@ module.exports = (sequelize, DataTypes) => {
     });
     userAccount.hasOne(models.userFriend, {
       foreignKey: {
-        name: 'userAccountId',
+        name: 'fisrtUserFriend',
         allowNull: false
       },
-      as: 'fisrtUserFriend',
       onDelete: 'RESTRICT',
       onUpdate: 'RESTRICT'
     });
     userAccount.hasOne(models.userFriend, {
       foreignKey: {
-        name: 'userAccountId',
+        name: 'secondUserFriend',
         allowNull: false
       },
-      as: 'secondUserFriend',
       onDelete: 'RESTRICT',
       onUpdate: 'RESTRICT'
     });
-    userAccount.hasOne(models.userMessenger, {
+    userAccount.hasMany(models.userMessenger, {
       foreignKey: {
-        name: 'userAccountId',
+        name: 'messageFrom',
         allowNull: false
       },
-      as: 'messageFrom',
+      as: 'messageFromUser',
       onDelete: 'RESTRICT',
       onUpdate: 'RESTRICT'
     });
-    userAccount.hasOne(models.userMessenger, {
+    userAccount.hasMany(models.userMessenger, {
       foreignKey: {
-        name: 'userAccountId',
+        name: 'messageTo',
         allowNull: false
       },
-      as: 'messageTo',
+      as: 'messageToUser',
       onDelete: 'RESTRICT',
       onUpdate: 'RESTRICT'
     });

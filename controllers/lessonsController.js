@@ -26,7 +26,13 @@ exports.getAllLessons = async (req, res, next) => { // used in home
 exports.getLessonsById = async (req, res, next) => { // used in teacherProfile app 
   try {
     const { id } = req.params;
-    const data = await lessons.findAll({ where: { teacherProfileId: id } })
+    const data = await lessons.findAll({
+      where: { teacherProfileId: id },
+      include: {
+        model: teacherProfile
+      }
+
+    })
     res.json({ data })
   }
   catch (err) {
@@ -56,22 +62,22 @@ const uploadCloud = multer({
 })
 
 //*upload file to cloud (cloudinery)
-exports.uploadCloud = uploadCloud.single('lessonPicutre')
+exports.uploadCloud = uploadCloud.single('lessonPicture')
 // create data
 exports.createLessons = async (req, res, next) => { //used in lessonForm
   try {
     const { lessonName, lessonDetail, firstTypeTag, secondTypeTag, thirdTypeTag } = req.body;
-    let lessonPicutre = ''
+    let lessonPicture = ''
     req.file && await cloudinary.uploader.upload(req.file.path, async (err, result) => { // picture case
       if (err) console.log(`err`, err)
       else console.log(`result`, result)
       fs.unlinkSync(req.file.path)
-      lessonPicutre = result.secure_url
+      lessonPicture = result.secure_url
     })
     const teacherProfileData = await teacherProfile.findOne({ where: { userAccountId: req.user.id } })
     const data = await lessons.create({
       ...req.body,
-      lessonPicutre,
+      lessonPicture,
       teacherProfileId: teacherProfileData.id
     })
     res.status(201).json({ data })
@@ -86,18 +92,18 @@ exports.updateLessons = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { lessonName, lessonDetail, firstTypeTag, secondTypeTag, thirdTypeTag } = req.body;
-    let lessonPicutre = ''
+    let lessonPicture = ''
     req.file && await cloudinary.uploader.upload(req.file.path, async (err, result) => { // picture case
       if (err) console.log(`err`, err)
       else console.log(`result`, result)
       fs.unlinkSync(req.file.path)
-      lessonPicutre = result.secure_url
+      lessonPicture = result.secure_url
     })
 
     const [rows] = await lessons.update({
       lessonName,
       lessonDetail,
-      lessonPicutre: lessonPicutre ?? null,
+      lessonPicture: lessonPicture ?? null,
       firstTypeTag,
       secondTypeTag,
       thirdTypeTag
@@ -118,10 +124,10 @@ exports.updateLessons = async (req, res, next) => {
 exports.deleteLessons = async (req, res, next) => {
   try {
     const { id } = req.params;
+    console.log(`id`, id)
     const rows = await lessons.destroy({
       where: {
-        id,
-        userAccountId: req.user.id
+        id
       }
     })
     if (rows === 0) return res.status(400).json({ message: 'Delete is failed' })

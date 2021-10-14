@@ -12,20 +12,18 @@ module.exports = (sequelize, DataTypes) => {
   userFriend.associate = models => {
     userFriend.belongsTo(models.userAccount, {
       foreignKey: {
-        name: 'userAccountId',
+        name: 'firstUserFriend',
         allowNull: false
       },
-      as: 'firstUserFriend',
       onDelete: 'RESTRICT',
       onUpdate: 'RESTRICT'
     });
 
     userFriend.belongsTo(models.userAccount, {
       foreignKey: {
-        name: 'userAccountId',
+        name: 'secondUserFriend',
         allowNull: false
       },
-      as: 'secondUserFriend',
       onDelete: 'RESTRICT',
       onUpdate: 'RESTRICT'
     });

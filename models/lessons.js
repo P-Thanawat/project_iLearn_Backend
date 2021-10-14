@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(1000),
       allowNull: false
     },
-    lessonPicutre: {
+    lessonPicture: {
       type: DataTypes.STRING, //? text content
       allowNull: false,
     },
@@ -63,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
         name: 'lessonsId',
         allowNull: false
       },
-      onDelete: 'RESTRICT',
+      onDelete: 'CASCADE',
       onUpdate: 'RESTRICT'
     });
 

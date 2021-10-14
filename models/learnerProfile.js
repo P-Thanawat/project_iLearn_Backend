@@ -1,9 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
   const learnerProfile = sequelize.define('learnerProfile', {
     learnerAboutMe: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(3000),
       allowNull: false,
-      unique: true
     },
 
   },

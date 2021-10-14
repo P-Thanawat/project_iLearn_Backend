@@ -26,6 +26,14 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'RESTRICT',
       onUpdate: 'RESTRICT'
     });
+    postComment.hasMany(models.commentReply, {
+      foreignKey: {
+        name: 'postCommentId',
+        allowNull: false
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'RESTRICT'
+    });
   }
 
   return postComment;
