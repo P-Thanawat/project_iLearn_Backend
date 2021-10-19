@@ -33,7 +33,7 @@ const lessonsRecordRouter = require('./routers/lessonsRecordRouter')
 const followingRouter = require('./routers/followingRouter')
 const postLikeRouter = require('./routers/postLikeRouter')
 
-sequelize.sync({ force: true });
+// sequelize.sync({ force: true });
 // sequelize.sync();
 
 const app = express();

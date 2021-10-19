@@ -145,7 +145,14 @@ exports.register = async (req, res, next) => {
       profilePicture: profilePicture ?? null
     })
 
-    res.status(201).json({ message: 'Create Account Succesful' })
+    const user = await userAccount.findOne({ //? select usersAccount data by email
+      where: {
+        email
+      }
+    })
+    console.log(`user`, user)
+
+    res.status(201).json({ user: user.id })
   }
   catch (err) {
     next(err)

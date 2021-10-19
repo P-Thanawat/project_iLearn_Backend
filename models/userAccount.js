@@ -41,6 +41,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL,
       allowNull: true,
       defaultValue: 0
+    },
+    readMessage: {
+      type: DataTypes.DECIMAL,
+      allowNull: true,
+      defaultValue: 0
     }
   },
     {

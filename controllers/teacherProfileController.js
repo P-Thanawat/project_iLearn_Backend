@@ -85,11 +85,10 @@ exports.createTeacherProfile = async (req, res, next) => {
 exports.updateTeacherProfile = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { introduceContent, presentText, aboutTeacher, ableBooking, ableContact } = req.body;
-    const [rows] = await teacherProfile.update({ ...req.body }, {
+    const { ableBooking, ableContact } = req.body;
+    const [rows] = await teacherProfile.update({ ableBooking, ableContact }, {
       where: {
-        id,
-        userAccountId: req.user.id
+        id
       }
     })
     if (rows === 0) return res.status(400).json({ message: 'Update is failed' })

@@ -110,6 +110,41 @@ exports.updateCredit = async (req, res, next) => { //usde in learnerProfile
   }
 }
 
+exports.updateXP = async (req, res, next) => { //usde in learnerProfile
+  try {
+    const { xp } = req.body
+    console.log(`xp`, xp)
+    const user = await userAccount.findOne({ where: { id: req.user.id } })
+    console.log(`user.studentPoint`, user.studentPoint)
+    const [rows] = await userAccount.update({ studentPoint: +user.studentPoint + +xp }, {
+      where: {
+        id: req.user.id
+      }
+    })
+    if (rows === 0) return res.status(400).json({ message: 'Update is failed' })
+    res.json({ message: 'Update is successful' })
+  }
+  catch (err) {
+    next(err)
+  }
+}
+
+exports.updateReadMessage = async (req, res, next) => { //usde in learnerProfile
+  try {
+    const { readMessage } = req.body
+    const [rows] = await userAccount.update({ readMessage }, {
+      where: {
+        id: req.user.id
+      }
+    })
+    // if (rows === 0) return res.status(400).json({ message: 'Update is failed' })
+    res.json({ message: 'Update is successful' })
+  }
+  catch (err) {
+    next(err)
+  }
+}
+
 // delete data by id
 exports.deleteUserAccount = async (req, res, next) => {
   try {
@@ -127,3 +162,4 @@ exports.deleteUserAccount = async (req, res, next) => {
     next(err)
   }
 }
+
